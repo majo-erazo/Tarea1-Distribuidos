@@ -1,11 +1,19 @@
-const redis = require("redis");
-const client = redis.createClient({
-  host: process.env.REDIS_HOST, // grande docker
-  port: 6379,
+import { createCluster } from 'redis';
+
+const cluster = createCluster({
+  rootNodes: [
+    {
+      url: 'redis1:6379'
+    },
+    {
+      url: 'redis2:6380'
+    },
+    {
+      url: 'redis3:6381'
+    }
+  ]
 });
 
-client.on("error", (err) => {
-  console.log("Error " + err);
-});
+cluster.on('error', (err) => console.log('Redis Cluster Error', err));
 
-module.exports = client;
+module.exports = cluster;
