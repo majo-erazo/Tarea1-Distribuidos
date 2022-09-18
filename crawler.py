@@ -2,9 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import psycopg2
 
-
 conn = psycopg2.connect(database='postgres', user='postgres',password='postgres')
-
 
 cur = conn.cursor()
 
@@ -60,6 +58,7 @@ def getInfoURL(url):
         keywords = soup.find("meta", {'name': "keywords"})
         #print("Palabra clave ",keywords, type(keywords))
 
+        #Oredena toda la información para que se vea de forma mas ordenada en la BD
         try:
             if keywords is None:
                 return None
@@ -90,9 +89,5 @@ def getInfoURL(url):
         return None
 
     return None
-                
-
-        
-        
-        
+                   
 txt_reader(5)
