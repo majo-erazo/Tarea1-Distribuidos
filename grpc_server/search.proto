@@ -8,7 +8,7 @@ message link{
 }
 
 service Search{
-    rcp GetLink(Archivo) returns (SearchResults){}
+    rpc GetLink(Archivo) returns (SearchResults){}
 }
 
 message Archivo{
