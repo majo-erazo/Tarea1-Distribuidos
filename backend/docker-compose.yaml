@@ -76,6 +76,8 @@ services:
   grpc_server:
     build: ./grpc_server/
     restart: always
+
+# BACKEND    
   backend:
     build: ./backend/
     environment:
