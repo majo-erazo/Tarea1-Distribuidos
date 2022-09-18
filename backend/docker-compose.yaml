@@ -1,5 +1,7 @@
 version: "3.7"
 services:
+
+# BASE DE DATOS 
   database:
     image: bitnami/postgresql:14.5.0
     restart: always
@@ -12,9 +14,14 @@ services:
       - POSTGRESQL_DATABASE=postgres
     ports:
       - 5432:5432
+      
+# REDIS
   dbredis:
     build: ./redis/
     restart: always
+    
+    
+# SERVIDOR
   grpc_server:
     build: ./grpc_server/
     restart: always
