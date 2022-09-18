@@ -28,12 +28,16 @@ app.get("/search/:item", async (req, res) => {
         grpc.getLinks({message: item}, (error, products) => {
           if (error){
             console.log(error);
+            console.log("No Hay Base de Datos");
             res.json({});
           } else {
             res.json(products.link)
+            console.log("Holis2");
             rd.set(item, JSON.stringify(products.link));
+            console.log("Holis3");
           }
         })
+        console.log("Holis4");
       }
     });
   }

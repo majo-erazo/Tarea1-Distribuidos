@@ -12,7 +12,6 @@ const options = {
 };
 const packageDef= protoLoader.loadSync(PROTO_PATH, options);
 const objProto = grpc.loadPackageDefinition(packageDef);
-const rutaGuia = objProto.rutaGuia;
 
 
 // Conección con la Base de Datos
@@ -26,35 +25,32 @@ const pool = new Pool({
     database: process.env.POSTGRES_DB
 });
 
-module.exports = pool;
 
 function main() {
-  function obtenerServer(){
-    const Server = new grpc.Server();
-    Server.addService(rutaGuia.RouteGuide.service, {
-      getFeature: getFeature,
-      listFeatures: listFeatures,
-      recordRoute: recordRoute,
-      routeChat: routeChat
-    });
-    return Server;
-  }
-  const routeServer = getServer();
-  routeServer.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
-    routeServer.start();
+  
+  const server= new grpc.Server();
+  server.addService(objProto.Search.service, {
+    getLinks: (_, callback) => {
+      const linksName = _.request.archivo;
+      pool.query('SELECT * FROM links WHERE UPPER(tittle) LIKE UPPER(%1);',[linksName], (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.status(200).json(results.rows)
+        callback(null, { results: link});
+      })
+      //const link = products.products_list.filter(({ name }) => name.includes(linksName));
+      //callback(null, { link: link});
+    }
   });
-  const getInfo = (request, response) => {
-    pool.query('SELECT * FROM links WHERE UPPER(tittle) LIKE UPPER(%1);',[title], (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).json(results.rows)
-      console.log(results);
-    })
-  }
-  module.exports = {
-    getInfo,
-  }
+  server.bindAsync("0.0.0.0:50051", grpc.ServerCredentials.createInsecure(), (err, port) => {
+    if (err != null) console.log(err);
+    else {
+      console.log("GRPC RUN AT http://localhost:50051");
+      server.start();
+    }
+  });
+  
   
 }
 /*
@@ -89,6 +85,5 @@ function main() {
     }
   });
 }
-
-main();
 */
+main();
