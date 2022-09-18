@@ -12,3 +12,17 @@ services:
       - POSTGRESQL_DATABASE=postgres
     ports:
       - 5432:5432
+  dbredis:
+    build: ./redis/
+    restart: always
+  grpc_server:
+    build: ./grpc_server/
+    restart: always
+  backend:
+    build: ./backend/
+    environment:
+      - REDIS_HOST= dbredis
+    restart: always
+    ports:
+      - "3000:3000"
+
