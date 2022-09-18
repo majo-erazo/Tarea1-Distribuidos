@@ -1,6 +1,7 @@
 const grpc = require("@grpc/grpc-js");
 const PROTO_PATH = "./search.proto";
 const protoLoader = require("@grpc/proto-loader");
+const { title } = require("process");
 
 const options = {
   keepCase: true,
@@ -13,11 +14,34 @@ const packageDef= protoLoader.loadSync(PROTO_PATH, options);
 const objProto = grpc.loadPackageDefinition(packageDef);
 
 // Conección con la Base de Datos
-var pgp = require("pg-promise")(/*options*/);
-var db = pgp("postgres://username:password@host:port/database");
+const Pool = require('pg').Pool;
+
+const pool = new Pool({
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    host: process.env.POSTGRES_HOST,
+    port: 5432,
+    database: process.env.POSTGRES_DB
+});
+
+module.exports = pool;
 
 function main() {
-  const server = new grpc.Server();
+
+  const getInfo = (request, response) => {
+    pool.query('SELECT * FROM links WHERE UPPER(tittle) LIKE UPPER(%1);',[title], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+  }
+  module.exports = {
+    getInfo,
+  }
+  
+  /*
+  const server= new grpc.Server();
   server.addService(objProto.Search.service, {
     getLinks: (_, callback) => {
       const linksName = _.request.message;
@@ -25,6 +49,7 @@ function main() {
       callback(null, { link: link});
     }
   });
+  */
   server.bindAsync("0.0.0.0:50051", grpc.ServerCredentials.createInsecure(), (err, port) => {
     if (err != null) console.log(err);
     else {
