@@ -12,6 +12,10 @@ const options = {
 const packageDef= protoLoader.loadSync(PROTO_PATH, options);
 const objProto = grpc.loadPackageDefinition(packageDef);
 
+// Conección con la Base de Datos
+var pgp = require("pg-promise")(/*options*/);
+var db = pgp("postgres://username:password@host:port/database");
+
 function main() {
   const server = new grpc.Server();
   server.addService(objProto.Search.service, {
