@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+message link{
+    string title = 1;
+    string description = 2;
+    string keywords = 3;
+    string urls = 4;
+}
+
+service Search{
+    rpc getLinks(Archivo) returns (SearchResults){}
+}
+
+message Archivo{
+    string archivo = 1;
+}
+
+message SearchResults{
+    repeated link urls = 1;
+}
+ 
