@@ -90,4 +90,4 @@ def getInfoURL(url):
 
     return None
                    
-txt_reader(5) # Cambiar el numero
+txt_reader(15000) # Cambiar el numero
