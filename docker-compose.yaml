@@ -52,7 +52,11 @@ services:
   grpc_server:
     build: ./grpc_server/
     restart: always
-
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=database
 # BACKEND    
   backend:
     build: ./backend/
@@ -61,4 +65,3 @@ services:
     restart: always
     ports:
       - "3000:3000"
-

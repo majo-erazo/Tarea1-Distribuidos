@@ -13,5 +13,7 @@ docker-compose up -d --build
 
 ```
 Luego de esto se debe ejecutar el crawler el cual ingresara los datos de las url a la base de datos.
-
+```
+python crawler.py
+```
 

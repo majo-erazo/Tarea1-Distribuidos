@@ -25,15 +25,16 @@ app.get("/search/:item", async (req, res) => {
         res.json(JSON.parse(reply));
       } else {  //Si el item no esta en cache
         console.log("lo busco y agrego");
-        grpc.getLinks({message: item}, (error, products) => {
+        grpc.getLinks({archivo: item}, (error, results) => {
+          console.log(results)
           if (error){
             console.log(error);
             console.log("No Hay Base de Datos");
             res.json({});
           } else {
-            res.json(products.link)
+            res.json(results.urls)
             console.log("Holis2");
-            rd.set(item, JSON.stringify(products.link));
+            rd.set(item, JSON.stringify(results.urls));
             console.log("Holis3");
           }
         })

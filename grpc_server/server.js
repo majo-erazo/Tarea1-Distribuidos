@@ -31,13 +31,15 @@ function main() {
   const server= new grpc.Server();
   server.addService(objProto.Search.service, {
     getLinks: (_, callback) => {
+      console.log("entro a servicio grpc");
       const linksName = _.request.archivo;
-      pool.query('SELECT * FROM links WHERE UPPER(tittle) LIKE UPPER(%1);',[linksName], (error, results) => {
+      console.log(linksName)
+      pool.query('SELECT * FROM link WHERE UPPER(title) LIKE UPPER($1::text) LIMIT 1;',[linksName], (error, results) => {
         if (error) {
           throw error
         }
-        response.status(200).json(results.rows)
-        callback(null, { results: link});
+        console.log(results.rows);
+        callback(null, { urls: results.rows});
       })
       //const link = products.products_list.filter(({ name }) => name.includes(linksName));
       //callback(null, { link: link});
@@ -53,37 +55,5 @@ function main() {
   
   
 }
-/*
-function main() {
 
-  const getInfo = (request, response) => {
-    pool.query('SELECT * FROM links WHERE UPPER(tittle) LIKE UPPER(%1);',[title], (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).json(results.rows)
-    })
-  }
-  module.exports = {
-    getInfo,
-  }
-  
-  const server= new grpc.Server();
-  server.addService(objProto.Search.service, {
-    getLinks: (_, callback) => {
-      const linksName = _.request.message;
-      const link = products.products_list.filter(({ name }) => name.includes(linksName));
-      callback(null, { link: link});
-    }
-  });
-  
-  server.bindAsync("0.0.0.0:50051", grpc.ServerCredentials.createInsecure(), (err, port) => {
-    if (err != null) console.log(err);
-    else {
-      console.log("GRPC RUN AT http://localhost:50051");
-      server.start();
-    }
-  });
-}
-*/
 main();

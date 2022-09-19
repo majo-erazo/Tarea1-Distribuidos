@@ -8,7 +8,7 @@ message link{
 }
 
 service Search{
-    rpc getLinks(Archivo) returns (SearchResults){}
+    rpc getLinks(Archivo) returns (SearchResults) {}
 }
 
 message Archivo{
@@ -18,4 +18,3 @@ message Archivo{
 message SearchResults{
     repeated link urls = 1;
 }
- 
