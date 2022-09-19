@@ -4,7 +4,7 @@ En este repositorio se tendra el codigo y las instrucciones para poder ejecutar 
 ### Primeros Pasos:
 Se debe descargar desde el [Colecciones de AOL de usuarios](http://www.cim.mcgill.ca/~dudek/206/Logs/AOL-user-ct-collection/) (Se utilizo la coleccion 07 para el video y la implementación).
 
-### Comandos a ejecutar
+### Comandos a ejecutar:
 Como se utilizara docker para la implementacion de esto, basta con ejecutar el siguiente comando:
 ```
 docker-compose up -d --build
@@ -14,4 +14,7 @@ Luego de esto se debe ejecutar el crawler el cual ingresara los datos de las url
 ```
 python crawler.py
 ```
+### Enlaces:
+[Enlace del video]()
+
 
