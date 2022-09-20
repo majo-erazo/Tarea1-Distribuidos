@@ -15,6 +15,6 @@ Luego de esto se debe ejecutar el crawler el cual ingresara los datos de las url
 python crawler.py
 ```
 ### Enlaces:
-[Enlace del video]()
+[Enlace del video](https://drive.google.com/drive/folders/1t01ZKLOTjSJBgPLkujt7UBCZnZo1x7Yt?usp=sharing)
 
 
