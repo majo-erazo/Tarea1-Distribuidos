@@ -33,12 +33,15 @@ function main() {
     getLinks: (_, callback) => {
       console.log("entro a servicio grpc");
       const linksName = _.request.archivo;
+      const value = '%'+linksName+'%'
       console.log(linksName)
-      pool.query('SELECT * FROM link WHERE UPPER(title) LIKE UPPER($1::text) LIMIT 1;',[linksName], (error, results) => {
+      console.log(value)
+      pool.query('SELECT * FROM link WHERE UPPER(title) LIKE UPPER($1::text) LIMIT 1;',[value], (error, results) => {
         if (error) {
           throw error
         }
         console.log(results.rows);
+        console.log()
         callback(null, { urls: results.rows});
       })
       //const link = products.products_list.filter(({ name }) => name.includes(linksName));

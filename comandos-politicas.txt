@@ -1,0 +1,3 @@
+redis-cli -u redis://redis1
+CONFIG SET maxmemory 20M
+CONFIG SET maxmemory-policy allkeys-lru 
